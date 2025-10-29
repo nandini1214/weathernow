@@ -4,7 +4,7 @@ import SearchBar from "./common/SearchBar";
 import MainWeatherCard from "./common/Cards/MainWeatherCard";
 import { fetchWeather } from "../api/FetchWeather";
 import { fetchCoordinates } from "../api/FetchCoordinates";
-import { AlertTriangle, Wind } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 const WeatherDashboard = () => {
   // 🔹 State Management
@@ -94,7 +94,7 @@ const WeatherDashboard = () => {
    */
   const handleSearch = () => {
     if (!selectedCity?.latitude || !selectedCity?.longitude) {
-      setError("Please select a valid city before searching.");
+      setError("Enter valid city");
       return;
     }
     getWeather(selectedCity.latitude, selectedCity.longitude);
@@ -114,52 +114,76 @@ const WeatherDashboard = () => {
    * 🧩 Renders weather section
    */
   const renderWeatherSection = () => {
-    if (loading) {
-      return (
-        <div className="text-center text-gray-300 py-10 text-lg animate-pulse">
-          Fetching latest weather data...
+  if (loading) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+      {/* Animated gradient circle */}
+      <div className="relative mb-6">
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-spin-slow blur-sm opacity-70"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-10 h-10 bg-gray-900 rounded-full border-4 border-t-blue-400 animate-spin"></div>
         </div>
-      );
-    }
+      </div>
 
-    if (weather?.success) {
-      return (
-        
-          <MainWeatherCard weather={weather} selectedCity={selectedCity} />
+      {/* Loading text with shimmer */}
+      <h2 className="text-lg sm:text-xl text-blue-200 font-semibold tracking-wide animate-pulse mb-2">
+        Fetching latest weather data...
+      </h2>
+      <p className="text-gray-400 text-sm sm:text-base max-w-xs animate-fade-in">
+        Please wait a moment while we retrieve live weather updates.
+      </p>
+    </div>
+  );
+}
 
-          
-        
-      );
-    }
 
-    if (error) {
-      return (
-        <div className="text-red-400 mt-4 bg-red-900/30 p-3 rounded-lg border border-red-700">
-          <AlertTriangle/> {error}
-        </div>
-      );
-    }
+  if (weather?.success) {
+    return <MainWeatherCard weather={weather} selectedCity={selectedCity} />;
+  }
 
+  if (error) {
     return (
-  <div className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-2xl 
-                   
-                  transition-all duration-500 hover:shadow-cyan-500/20">
-    {/* Animated Emoji or Icon */}
-    <div className="text-5xl mb-4 animate-bounce">🌍</div>
+      <div className="flex justify-center mt-6 px-4">
+        <div className="relative w-full max-w-md bg-red-900/40 border border-red-700/60 rounded-xl p-5 
+                        text-center text-red-300 shadow-lg backdrop-blur-md animate-fade-in overflow-hidden">
+          {/* Glowing red border effect */}
+          <div className="absolute inset-0 border border-red-500/30 rounded-xl blur-sm"></div>
 
-    {/* Main Message */}
-    <h2 className="text-gray-100 text-xl sm:text-2xl font-semibold mb-2">
-      Search for a City
-    </h2>
+          {/* Icon + Text */}
+          <div className="relative flex flex-col items-center justify-center gap-3 z-10">
+            <div className="bg-red-700/30 p-3 rounded-full border border-red-500/50 shadow-inner animate-pulse">
+              <AlertTriangle className="w-7 h-7 text-red-400" />
+            </div>
+            <p className="text-sm sm:text-base font-medium leading-relaxed px-2">
+              {error || "Something went wrong. Please try again later."}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    {/* Sub Message */}
-    <p className="text-gray-400 text-sm sm:text-base max-w-md">
-      Enter a city name above to view current weather conditions and forecasts.
-    </p>
-  </div>
-);
+  return (
+    <div
+      className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-2xl 
+                 transition-all duration-500 hover:shadow-cyan-500/20"
+    >
+      {/* Animated Emoji or Icon */}
+      <div className="text-5xl mb-4 animate-bounce">🌍</div>
 
-  };
+      {/* Main Message */}
+      <h2 className="text-gray-100 text-xl sm:text-2xl font-semibold mb-2">
+        Search for a City
+      </h2>
+
+      {/* Sub Message */}
+      <p className="text-gray-400 text-sm sm:text-base max-w-md">
+        Enter a city name above to view current weather conditions and forecasts.
+      </p>
+    </div>
+  );
+};
+
 
   // 🔹 JSX Layout
   return (
