@@ -44,17 +44,9 @@ const MainWeatherCard = ({ weather, selectedCity }) => {
   // ☁️ Map weather code to description + icon
   const weatherInfo = weatherCodeMap[weathercode] || "unknown";
 
-  // 🎨 Dynamic background gradient based on temperature
-  const bgGradient =
-    temperature > 30
-      ? "from-blue-600 to-cyan-600"
-      : temperature > 20
-      ? "from-blue-600 to-purple-700"
-      : "from-blue-800 to-gray-900";
-
   return (
     <div
-      className={`max-w-3xl mx-auto relative rounded-3xl p-6 sm:p-8 mb-8 overflow-hidden shadow-2xl bg-gradient-to-br ${bgGradient} transition-all duration-500`}
+      className={`max-w-3xl mx-auto relative rounded-3xl p-6 sm:p-8 mb-8 overflow-hidden shadow-2xl bg-gradient-to-br from-blue-600 to-cyan-600 transition-all duration-500`}
     >
       {/* ✨ Decorative animated stars */}
       <div className="absolute top-6 right-10 w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
