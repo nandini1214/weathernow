@@ -47,7 +47,7 @@ const MainWeatherCard = ({ weather, selectedCity }) => {
   // 🎨 Dynamic background gradient based on temperature
   const bgGradient =
     temperature > 30
-      ? "from-yellow-500 to-orange-600"
+      ? "from-blue-600 to-cyan-600"
       : temperature > 20
       ? "from-blue-600 to-purple-700"
       : "from-blue-800 to-gray-900";
